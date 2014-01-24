@@ -1,5 +1,7 @@
 name = Webform Panels
 description = Provides ctools content type plugin for webforms
 package = Panels
+dependencies[] = panels
+dependencies[] = webform
 version = 7.x-1.0
 core = 7.x
