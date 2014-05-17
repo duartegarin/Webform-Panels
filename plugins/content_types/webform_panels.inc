@@ -3,7 +3,6 @@
 /**
  * @file
  * Main file for the the webform content type definition.
- *
  */
 
 $plugin = array(
@@ -51,21 +50,21 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
 
 /**
  * Retrieves all nodes that have webform components associated with them.
- * @return $options
+ * @return options[] An array of with the returned webforms keyed nid->title
  */
 function webform_panels_get_all_forms() {
 
   $query = db_select('webform_component', 'w')->fields('w', array('nid'))->distinct();
   $options = array();
 
-  foreach($query->execute() as $result){
+  foreach($query->execute() as $result) {
 
     $results[] = $result->nid;
   }
 
   $nodes = node_load_multiple($results);
 
-  foreach($nodes as $node){
+  foreach($nodes as $node) {
 
     $options[$node->nid] = $node->title;
   }
@@ -85,17 +84,18 @@ function webform_panels_webform_panels_edit_form_submit($form, &$form_state) {
 }
 
 /**
- * Run-time rendering of the body of the block (content type)
- * See ctools_plugin_examples for more advanced info
+ * Run-time rendering of the body of the block (content type).
+ *
+ * See ctools_plugin_examples for more advanced info.
  */
 function webform_panels_webform_panels_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
 
-  // initial content is blank
+  // Initial content is blank.
   $block->title = '';
   $block->content = '';
 
-  // Add in the content
+  // Add in the content.
   $node = node_load($conf['selected_forms']);
   $render = node_view($node);
 
