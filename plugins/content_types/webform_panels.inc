@@ -50,21 +50,22 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
 
 /**
  * Retrieves all nodes that have webform components associated with them.
- * @return options[] An array of with the returned webforms keyed nid->title
+ * @return options[]
+ * An array of with the returned webforms keyed nid->title
  */
 function webform_panels_get_all_forms() {
 
   $query = db_select('webform_component', 'w')->fields('w', array('nid'))->distinct();
   $options = array();
 
-  foreach($query->execute() as $result) {
+  foreach ($query->execute() as $result) {
 
     $results[] = $result->nid;
   }
 
   $nodes = node_load_multiple($results);
 
-  foreach($nodes as $node) {
+  foreach ($nodes as $node) {
 
     $options[$node->nid] = $node->title;
   }
