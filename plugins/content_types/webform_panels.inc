@@ -35,14 +35,14 @@ function webform_panels_webform_panels_type_content_types() {
 
   $types = array();
 
-  //Selects the node types that have webform components associated with them.
+  // Selects the node types that have webform components associated with them.
   $query = db_select('webform_component', 'w')
     ->fields('w', array('nid'))
     ->distinct();
   $query->leftjoin('node', 'n', 'n.nid = w.nid');
-  $query->fields('n',array('type'));
+  $query->fields('n', array('type'));
 
-  //Builds an array with the node types and their content type ctools info.
+  // Builds an array with the node types and their content type ctools info.
   foreach ($query->execute() as $result) {
 
     $types[$result->type] = array(
@@ -65,14 +65,14 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
 
   $conf = $form_state['conf'];
 
-  //Sets the subtype according with the chosen value in the UI.
+  // Sets the subtype according with the chosen value in the UI.
   $subtype = $form_state['subtype_name'];
 
-  //Gets the info for node entity with all the available view modes.
+  // Gets the info for node entity with all the available view modes.
   $entity_info = entity_get_info('node');
 
-  //Creates the list of view modes for this bundle.
-  $bundle_settings = field_bundle_settings('node',$subtype);
+  // Creates the list of view modes for this bundle.
+  $bundle_settings = field_bundle_settings('node', $subtype);
 
   $options = array(
 
@@ -81,7 +81,7 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
   if (!empty($bundle_settings['view_modes'])) {
     foreach ($bundle_settings['view_modes'] as $mode => $settings) {
 
-      if($settings['custom_settings']){
+      if ($settings['custom_settings']) {
 
         $options[$mode] = $entity_info['view modes'][$mode]['label'];
       }
@@ -111,7 +111,7 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
     );
   }
 
-  //Select options with the nodes of the selected subtype which have webforms.
+  // Select options with the nodes of the selected subtype which have webforms.
   $subtype_webforms = webform_panels_get_all_forms($subtype);
   $form['selected_forms'] = array(
 
@@ -132,10 +132,10 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
  */
 function webform_panels_get_all_forms($subtype) {
 
-  //Select all nodes from the database that have webform components.
+  // Select all nodes from the database that have webform components.
   $query = db_select('webform_component', 'w')->fields('w', array('nid'))->distinct();
   $query->leftjoin('node', 'n', 'n.nid = w.nid');
-  $query->condition('n.type',$subtype,'=');
+  $query->condition('n.type', $subtype, '=');
 
   foreach ($query->execute() as $result) {
 
@@ -144,7 +144,7 @@ function webform_panels_get_all_forms($subtype) {
 
   $nodes = node_load_multiple($results);
 
-  //Builds an array with all the nodes returned by the query.
+  // Builds an array with all the nodes returned by the query.
   $options = array();
   foreach ($nodes as $node) {
 
@@ -181,7 +181,7 @@ function webform_panels_webform_panels_render($subtype, $conf, $panel_args, $con
 
   // Add the rendered node in the selected view mode to the block.
   $node = node_load($conf['selected_forms']);
-  $render = node_view($node,$view_mode);
+  $render = node_view($node, $view_mode);
   $block->content .= render($render);
 
   return $block;
@@ -194,11 +194,11 @@ function webform_panels_webform_panels_render($subtype, $conf, $panel_args, $con
  */
 function webform_panels_webform_panels_content_type_admin_title($entity_type, $conf, $contexts) {
 
-  //Get all available view modes for node.
+  // Get all available view modes for node.
   $entity_info = entity_get_info('node');
-  //Get the chosen view mode.
+  // Get the chosen view mode.
   $view_mode = $conf['view_mode'];
-  //Get the chosen node.
+  // Get the chosen node.
   $node = node_load($conf['selected_forms']);
 
   if (isset($entity_info['view modes'][$view_mode])) {
