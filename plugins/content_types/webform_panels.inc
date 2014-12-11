@@ -127,6 +127,7 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
 
 /**
  * Helper function that Retrieves all nodes that have webform components.
+ *
  * @return options[]
  *   An array of with the returned webforms keyed nid->title
  */
