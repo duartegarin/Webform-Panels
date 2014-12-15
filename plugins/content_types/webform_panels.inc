@@ -138,11 +138,7 @@ function webform_panels_get_all_forms($subtype) {
   $query->leftjoin('node', 'n', 'n.nid = w.nid');
   $query->condition('n.type', $subtype, '=');
 
-  foreach ($query->execute() as $result) {
-
-    $results[] = $result->nid;
-  }
-
+  $results = $query->execute()->fetchCol();
   $nodes = node_load_multiple($results);
 
   // Builds an array with all the nodes returned by the query.
