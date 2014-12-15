@@ -134,19 +134,12 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
 function webform_panels_get_all_forms($subtype) {
 
   // Select all nodes from the database that have webform components.
-  $query = db_select('webform_component', 'w')->fields('w', array('nid'))->distinct();
+  $query = db_select('webform_component', 'w')->fields('n', array('nid'))->fields('n', array('title'))->distinct();
   $query->leftjoin('node', 'n', 'n.nid = w.nid');
   $query->condition('n.type', $subtype, '=');
 
-  $results = $query->execute()->fetchCol();
-  $nodes = node_load_multiple($results);
-
   // Builds an array with all the nodes returned by the query.
-  $options = array();
-  foreach ($nodes as $node) {
-
-    $options[$node->nid] = $node->title;
-  }
+  $options = $query->execute()->fetchAllKeyed();
 
   return $options;
 }
