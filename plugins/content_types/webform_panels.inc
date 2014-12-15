@@ -107,7 +107,7 @@ function webform_panels_webform_panels_edit_form($form, &$form_state) {
 
     $form['view_mode'] = array(
       '#type' => 'value',
-      '#value' => $options ? key($options) : 'default',
+      '#value' => $options ? key($options) : t('default'),
     );
   }
 
