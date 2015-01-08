@@ -138,6 +138,9 @@ function webform_panels_get_all_forms($subtype) {
   $query->leftjoin('node', 'n', 'n.nid = w.nid');
   $query->condition('n.type', $subtype, '=');
 
+  // Add node_access tag to show only nodes the user can access.
+  $query->addTag('node_access');
+
   // Builds an array with all the nodes returned by the query.
   $options = $query->execute()->fetchAllKeyed();
 
@@ -171,8 +174,16 @@ function webform_panels_webform_panels_render($subtype, $conf, $panel_args, $con
 
   // Add the rendered node in the selected view mode to the block.
   $node = node_load($conf['selected_forms']);
-  $render = node_view($node, $view_mode);
-  $block->content .= render($render);
+
+  // Check if user has access to the node being rendered.
+  $access = node_access('view',$node);
+
+  // If the user has access to these webforms, render them.
+  if($access){
+
+    $render = node_view($node, $view_mode);
+    $block->content .= render($render);
+  }
 
   return $block;
 }
