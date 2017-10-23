@@ -9,9 +9,9 @@ show nodes that actually are webforms, instead of showing all nodes that can be
 webforms.
 
 * For a full description of the module, visit the project page:
-  https://drupal.org/sandbox/kyuubi/2180399
+  https://www.drupal.org/project/webform_panels
 * To submit bug reports and feature suggestions, or to track changes:
-  https://drupal.org/project/issues/2180399
+  https://www.drupal.org/project/issues/webform_panels
 
 REQUIREMENTS
 ------------
